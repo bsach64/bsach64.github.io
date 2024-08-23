@@ -1,78 +1,167 @@
-header {
-	line-height: 1.8;
-	max-width: 50vw;
-	color: white;
-	font-family: Roboto Mono;
-	color: #EEEEEE;
-	margin: 20px auto;
-}
-
-h1 {
-	line-height: 1.8;
-	max-width: 50vw;
-	color: white;
-	font-family: Roboto Mono;
-	color: #EEEEEE;
-	margin: 20px auto;
-}
-
-h2 {
-	line-height: 1.8;
-	max-width: 50vw;
-	color: white;
-	font-family: Roboto Mono;
-	color: #EEEEEE;
-	margin: 20px auto;
-}
-
-
-body {
+body, html {
 	background: black;
 }
 
-.everything {
+.container {
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	color: white;
+	min-height: 100vh;
+	padding-top: 20px;
+	overflow-y: auto;
 }
 
-.links {
+.homepage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: justify;
+	text-justify: auto;
+	font-family: Roboto Mono;
+	color: #CCCCCC;
+	max-width: 600px;
+}
+
+
+.photo {
+	height: 400px;
+	width: 400px;
+}
+
+h1 {
+	color: #EEEEEE;
+	font-family: Roboto Mono;
+	font-size: 40px;
+	text-align: left;
+	margin: 0.5em;
+}
+
+h2 {
+	color: #EEEEEE;
+	font-family: Roboto Mono;
+	font-size: 30px;
+	text-align: left;
+	margin: 0.5em;
+}
+
+.links-container {
+	display: flex; justify-content: center;
+	align-items: center;
 	flex-direction: row;
 }
 
-.text {
-	text-align: justify;
-	text-justify: auto;
-	line-height: 1.8;
-	max-width: 50vw;
-	font-family: Roboto Mono;
-	font-size: 20px;
-	color: #CCCCCC;
-	margin: 20px auto;
-}
-
 .logo {
-	width: 35px;
-	height: 35px;
+	width: 50px;
+	width: 50px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 20px;
 }
 
-.photo {
-	width: 250px;
-	height: 250px;
-}
-
-
-.llogo {
-	width: 40px;
-	height: 40px;
-}
-
-a {
-	padding: 10px;
-	color: white;
+.large-text {
+	text-align: center;
+	font-family: Roboto Mono;
+	color: #CCCCCC;
+	font-size: 25px;
+	padding-bottom: 10px;
 }
 
 a:visited {
 	color: white;
+}
+
+a:link {
+	color: white;
+}
+
+.blog {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	color: #CCCCCC;
+	max-width: 1000px;
+}
+
+.top-container {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	flex-direction: row;
+}
+
+.back-link-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.header-photo {
+	height: 100px;
+	width: 100px;
+}
+
+.content {
+	text-align: justify;
+	font-family: Roboto Mono;
+	color: #CCCCCC;
+	font-size: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+@media (max-width: 500px) {
+	.photo {
+		height: 200px;
+		width: 200px;
+	}
+
+	h1 {
+		color: #EEEEEE;
+		font-family: Roboto Mono;
+		font-size: 30px;
+		text-align: left;
+		margin: 0.5em;
+	}
+
+	h2 {
+		color: #EEEEEE;
+		font-family: Roboto Mono;
+		font-size: 20px;
+		text-align: left;
+		margin: 0.5em;
+	}
+
+	.logo {
+		width: 30px;
+		width: 30px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.large-text {
+		text-align: center;
+		font-family: Roboto Mono;
+		color: #CCCCCC;
+		font-size: 15px;
+		padding-bottom: 10px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.content {
+		text-align: justify;
+		font-family: Roboto Mono;
+		color: #CCCCCC;
+		font-size: 16px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.header-photo {
+		height: 50px;
+		width: 50px;
+	}
 }
