@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>GSoC'24 Work Report</title>
+		<title>GSoC 2024 Work Report</title>
 		<link rel="stylesheet" href="style.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,23 +26,78 @@
 		</div>
 		<h1>Adding pidfd support to CRIU: GSoC 2024</h1>
 		<div class="content">
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+			<b>CRIU</b> (Checkpoint/Restore in Userspace) allows you to freeze a running application and save it to disk (in the form of a set of image files).
+			We can restore (or restart) the application using these image files.
+			CRIU allows for container migration, snapshots, and the like. It is integrated into LXC, Docker, and Podman.
+			<br>
+			My project was implementing support for process file descriptors (pidfds) in CRIU.
 		</div>
-		<h2>What's a pidfd?</h2>
+		<h2>What's a pidfd anyway?</h2>
 		<div class="content">
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+			Processes in Linux are idenitified using <b>PIDs</b> (Process IDs).
+			A PID is just an integer (its maximum value can be found from: <code><b>/proc/sys/kernel/pid_max</b></code>).
+			When the number of processes exceeds <code><b>pid_max</b></code>, the kernel starts reassigning PIDs.
+			This is known as PID recycling.
+			<br>
+			This creates a problem for other processes that were using PIDs to point to the older process.
+			To provide a stable handle on a process (or a thread), <code><b>pidfds</b></code> were introduced.
+			<br>
+			You can create a pidfd in two ways:
+			<ul>
+				<li><code><b>pidfd_open(): </b></code>creates a pidfd for a specified pid</li>
+				<li><code><b>clone(3): </b></code>creates a pidfd for at process creation time.</li>
+			</ul>
+			Using the pidfd, you can send signals to the process using <code><b>pidfd_send_signal()</b></code> and obtain
+			a file descriptor from the process using <code><b>pidfd_getfd()</b></code>.
 		</div>
-		<h2>What is the State of Things?</h2>
+		<h2>Implementation</h2>
 		<div class="content">
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+			<h4>Link to Pull Request: <a target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2449">https://github.com/checkpoint-restore/criu/pull/2449</a></h4>
+			<b>No Code related to pidfd support has been merged yet.</b>
+			<br>
+			<br>
+			CRIU already has a great number of abstractions for adding support of various file descriptors. Some portion of
+			development was to follow whatever patterns already existed for other file descriptors.
+			<br>
+			The two problems unique to pidfds were:
+			<ul>
+				<li><b>Obtaining the correct PID:</b> The pid of the process in the Pid field of
+				<code><b>/proc/$pid/fdinfo/$pidfd</b></code> is incorrect in case checkpoint/restore
+				happens in a namespace. We end up using the last entry ofthe NSpid field giving the PID
+				in the most deeply nested PID namespace.
+				</li>
+				<br>
+				<li>
+				<b>pidfds that point to dead processes:</b> If we dump a pidfd that points to a dead process,
+				we do not have access to the PID it had pointed to. But, we do have to maintain equality between pidfds, i.e,
+				If two pidfds that pointed to the same dead process before C/R, they should continue to do so after C/R.
+				We solve this problem by creating a temporary process for each unique inode and open pidfds that point
+				to this temporary process. After all pidfds have been opened, we kill this temporary process.
+				</li>
+			</ul>
 		</div>
 		<h2>What's Left to Do</h2>
 		<div class="content">
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+		<b>Support for <code>PIDFD_THREAD</code> flag:</b> PIDFD_THREAD allows for pidfds to be opened that point to a single
+		thread instead of a process. I will be working on this after Google Summer of Code.
 		</div>
 		<h2>Learnings</h2>
 		<div class="content">
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+		<ul style="margin-top: 0.5em">
+			<li>How helpful <code>man-pages</code> are.</li>
+			<li>Understanding kernel commit messages and a little bit of kernel code.</li>
+			<li>I learned a lot of concepts related to containers such as Namespaces, cgroups, and containers work under the hood.</li>
+			<li>Understood IPC (Interprocess communication), multithreading at a deeper level.</li>
+			<li>GSoC was my first time working in a collaborative environment, and it gave me a sneak peek into professional development.</li>
+		</ul>
+	
+		</div>
+		<h2>Acknowledgements</h2>
+		<div class="content">
+		Huge thank you to my mentor, <a target="_blank" href="https://github.com/mihalicyn">Aleksandr Mikhalitsyn</a>, for guiding me
+		and taking the extra time to explain concepts that helped me understand Linux and CRIU at a deeper level.
+		Thank you to <a target="_blank" href="https://github.com/avagin">Andrei Vagin</a> and
+		<a target="_blank" href="https://github.com/rst0git">Radostin Stoyanov</a> for reviewing my pull request alongside Alex. 
 		</div>
 	</div>
 	</div>

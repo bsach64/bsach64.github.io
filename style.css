@@ -31,7 +31,8 @@ body, html {
 }
 
 h1 {
-	color: #EEEEEE;
+	/* color: #EEEEEE; */
+	color: steelblue;
 	font-family: Roboto Mono;
 	font-size: 40px;
 	text-align: left;
@@ -39,11 +40,23 @@ h1 {
 }
 
 h2 {
-	color: #EEEEEE;
+	/* color: #EEEEEE; */
+	color: steelblue;
 	font-family: Roboto Mono;
 	font-size: 30px;
 	text-align: left;
 	margin: 0.5em;
+}
+
+h4 {
+	color: coral;
+	font-family: Roboto Mono;
+	font-size: 21px;
+	text-align: left;
+	margin-left: 0px;
+	margin-right: 0.5em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 .links-container {
@@ -74,6 +87,10 @@ a:visited {
 
 a:link {
 	color: white;
+}
+
+a:hover {
+	color: #CCCCCC;
 }
 
 .blog {
@@ -119,7 +136,8 @@ a:link {
 	}
 
 	h1 {
-		color: #EEEEEE;
+		/* color: #EEEEEE; */
+		color: steelblue;
 		font-family: Roboto Mono;
 		font-size: 30px;
 		text-align: left;
@@ -127,11 +145,23 @@ a:link {
 	}
 
 	h2 {
-		color: #EEEEEE;
+		/* color: #EEEEEE; */
+		color: steelblue;
 		font-family: Roboto Mono;
 		font-size: 20px;
 		text-align: left;
 		margin: 0.5em;
+	}
+
+	h4 {
+		color: coral;
+		font-family: Roboto Mono;
+		font-size: 17px;
+		text-align: left;
+		margin-left: 0px;
+		margin-right: 0.5em;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
 	}
 
 	.logo {
