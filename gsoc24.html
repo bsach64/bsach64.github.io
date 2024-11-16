@@ -77,11 +77,6 @@
 				</li>
 			</ul>
 		</div>
-		<h2>What's Left to Do</h2>
-		<div class="content">
-		<b>Support for <code>PIDFD_THREAD</code> flag:</b> PIDFD_THREAD allows for pidfds to be opened that point to a single
-		thread instead of a process. I will be working on this after Google Summer of Code.
-		</div>
 		<h2>Learnings</h2>
 		<div class="content">
 		<ul style="margin-top: 0.5em">
@@ -91,7 +86,28 @@
 			<li>Understood IPC (Interprocess communication), multithreading at a deeper level.</li>
 			<li>GSoC was my first time working in a collaborative environment, and it gave me a sneak peek into professional development.</li>
 		</ul>
-	
+		</div>
+		<h2>What's Left to Do</h2>
+		<div class="content">
+		<b>Support for <code>PIDFD_THREAD</code> flag:</b> PIDFD_THREAD allows for pidfds to be opened that point to a single
+		thread instead of a process. I will be working on this after Google Summer of Code.
+		</div>
+		<h2>Work Done After GSoC</h2>
+		<div class="content">
+		<ul style="margin-top: 0.5em">
+			<li>
+			Fixed a bug with <code>SIGCHLD</code> being called incorrectly on <code>tmp process</code>.
+			<h5>Link to Pull Request: <a target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2491">https://github.com/checkpoint-restore/criu/pull/2491</a></h5>
+			</li>
+			<li>
+			Identified a bug with the current implementation of restore of dead pidfds.
+			<h5>Link to Issue: <a target="_blank" href="https://github.com/checkpoint-restore/criu/issues/2496">https://github.com/checkpoint-restore/criu/issues/2496</a></h5>
+			</li>
+			<li>
+			How we handle dead pidfds has changed after GSoC. I contributed a test case to the change.
+			<h5>Link to Pull Request: <a target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2505">https://github.com/checkpoint-restore/criu/pull/2505</a></h5>
+			</li>
+		</ul>
 		</div>
 		<h2>Acknowledgements</h2>
 		<div class="content">
