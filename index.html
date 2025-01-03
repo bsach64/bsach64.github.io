@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Bhavik Sachdev</title>
-		<link rel="stylesheet" href="style.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						'steelblue': '#4682B4',
+						'coral': '#FF7F50',
+					},
+				},
+				fontFamily: {
+					mono: ['Roboto Mono'],
+				},
+			}
+		}
+		</script>
+		<title>Bhavik Sachdev</title>
 	</head>
-	<body>
-	<div class="container">
-		<div class="homepage">
-			<img class="photo" src="assets/bhavik.png">
-			<h1 style="color:#EEEEEE">Bhavik Sachdev</h1>
-			<div class="links-container">
-				<a target="_blank" href="https://www.github.com/bsach64"><img class="logo" src="assets/github-mark-white.png"></a>
-				<a target="_blank" href="https://www.linkedin.com/in/bsach64"><img class="logo" src="assets/ln.png"></a>
-				<a target="_blank" href="mailto:b.sachdev1904@gmail.com"><img class="logo" src="assets/mail.png"></a>
+	<body class="bg-black">
+	<div class="flex justify-center items-center text-white min-h-screen pt-20 overflow-y-auto">
+		<div class="flex justifiy-center items-center flex-col text-justify text-[#CCCCCC] max-w-screen-sm font-mono">
+			<img class="h-[300px] w-[300px] mb-8" src="assets/bhavik.png">
+			<h1 class="text-[#EEEEEE] font-bold text-5xl mb-6">Bhavik Sachdev</h1>
+			<div class="flex flex-row items-center justify-center mb-8">
+				<a target="_blank" href="https://www.github.com/bsach64" class="mx-2">
+					<img class="w-[50px]" src="assets/github-mark-white.png">
+				</a>
+				<a target="_blank" href="https://www.linkedin.com/in/bsach64" class="mx-2">
+					<img class="w-[50px]" src="assets/ln.png">
+				</a>
+				<a target="_blank" href="mailto:b.sachdev1904@gmail.com" class="mx-2">
+					<img class="w-[50px]" src="assets/mail.png">
+				</a>
 			</div>
-			<div class="large-text">
-			Hello, I am Bhavik Sachdev! A third year student at IIIT Naya Raipur.
+			<div class="text-center mb-6 text-xl md:text-2xl">
+				Hello, I am Bhavik Sachdev! A third year student at IIIT Naya Raipur.
 			</div>
-			<div class="large-text">
-			<a target="_blank" href="assets/BhavikResume.pdf">Resume</a>
+			<div class="text-center mb-4 text-xl md:text-2xl">
+				<a target="_blank" href="assets/BhavikResume.pdf" class="underline hover:text-white">Resume</a>
 			</div>
-			<div class="large-text">
-			<a href="gsoc24.html">Google Summer of Code 2024: Work Report</a>
+			<div class="text-center mb-6 text-xl md:text-2xl">
+				<a href="gsoc24.html" class="underline hover:text-white">Google Summer of Code 2024: Work Report</a>
 			</div>
 		</div>
 	</div>

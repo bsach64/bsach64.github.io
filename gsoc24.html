@@ -4,36 +4,50 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>GSoC 2024 Work Report</title>
-		<link rel="stylesheet" href="style.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						'steelblue': '#4682B4',
+						'coral': '#FF7F50',
+					},
+				},
+				fontFamily: {
+					mono: ['Roboto Mono'],
+				},
+			}
+		}
+		</script>
+		<title>GSoC 2024 Work Report</title>
 	</head>
-	<body>
-	<div class="container">
-	<div class="blog">
-		<div class="top-container">
-			<div class="back-link-container">
-				<div class="content">
-				<a href="index.html">
+	<body class="bg-black">
+	<div class="flex justify-center items-center text-white min-h-screen pt-20 overflow-y-auto">
+	<div class="flex flex-col justify-center items-start text-[#CCCCCC] max-w-5xl">
+		<div class="flex justify-between flex-row w-full">
+			<div class="flex flex-col justify-center">
+				<div class="underline text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl">
+				<a href="index.html" class="hover:text-white">
 					< Home
 				</a>
 				</div>
 			</div>
-			<img class="header-photo" src="assets/bhavik.png">
+			<img class="h-[100px] w-[100px]" src="assets/bhavik.png">
 		</div>
-		<h1>Adding pidfd support to CRIU: GSoC 2024</h1>
-		<div class="content">
+		<h1 class="text-steelblue font-mono text-4xl text-left m-4 font-bold">Adding pidfd support to CRIU: GSoC 2024</h1>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
 			<b>CRIU</b> (Checkpoint/Restore in Userspace) allows you to freeze a running application and save it to disk (in the form of a set of image files).
 			We can restore (or restart) the application using these image files.
 			CRIU allows for container migration, snapshots, and the like. It is integrated into LXC, Docker, and Podman.
 			<br>
 			My project was implementing support for process file descriptors (pidfds) in CRIU.
 		</div>
-		<h2>What's a pidfd anyway?</h2>
-		<div class="content">
+		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">What's a pidfd anyway?</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
 			Processes in Linux are idenitified using <b>PIDs</b> (Process IDs).
 			A PID is just an integer (its maximum value can be found from: <code><b>/proc/sys/kernel/pid_max</b></code>).
 			When the number of processes exceeds <code><b>pid_max</b></code>, the kernel starts reassigning PIDs.
@@ -42,26 +56,30 @@
 			This creates a problem for other processes that were using PIDs to point to the older process.
 			To provide a stable handle on a process (or a thread), <code><b>pidfds</b></code> were introduced.
 			<br>
-			You can create a pidfd in two ways:
-			<ul>
+			You can create a <b>pidfd</b> in two ways:
+			<ul class="list-disc pl-8 my-4">
 				<li><code><b>pidfd_open(): </b></code>creates a pidfd for a specified pid</li>
 				<li><code><b>clone(3): </b></code>creates a pidfd for at process creation time.</li>
 			</ul>
 			Using the pidfd, you can send signals to the process using <code><b>pidfd_send_signal()</b></code> and obtain
 			a file descriptor from the process using <code><b>pidfd_getfd()</b></code>.
 		</div>
-		<h2>Implementation</h2>
-		<div class="content">
-			<h4>Link to Pull Request: <a target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2449">https://github.com/checkpoint-restore/criu/pull/2449</a></h4>
+		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Implementation</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+			<div>
+			<h4 class="text-coral font-mono font-bold mb-4">Link to Pull Request: <a class="underline text-[#CCCCCC] hover:text-white" target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2449">https://github.com/checkpoint-restore/criu/pull/2449</a></h4>
+			</div>
+			<div class="mb-4 mt-4">
 			<b><s>No Code related to pidfd support has been merged yet.</s></b>
-			<br>
-			<h4>Update on 3 October 2024: This PR has been merged!</h4>
-			<br>
+			</div>
+			<div>
+			<h4 class="text-coral font-mono font-bold mb-4 mt-4">Update on 3 October 2024: This PR has been merged!</h4>
+			</div>
 			CRIU already has a great number of abstractions for adding support of various file descriptors. Some portion of
 			development was to follow whatever patterns already existed for other file descriptors.
 			<br>
 			The two problems unique to pidfds were:
-			<ul>
+			<ul class="list-disc pl-8 my-4">
 				<li><b>Obtaining the correct PID:</b> The pid of the process in the Pid field of
 				<code><b>/proc/$pid/fdinfo/$pidfd</b></code> is incorrect in case checkpoint/restore
 				happens in a namespace. We end up using the last entry ofthe NSpid field giving the PID
@@ -77,9 +95,9 @@
 				</li>
 			</ul>
 		</div>
-		<h2>Learnings</h2>
-		<div class="content">
-		<ul style="margin-top: 0.5em">
+		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Learnings</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+		<ul style="margin-top: 0.5em" class="list-disc pl-8 my-4">
 			<li>How helpful <code>man-pages</code> are.</li>
 			<li>Understanding kernel commit messages and a little bit of kernel code.</li>
 			<li>I learned a lot of concepts related to containers such as Namespaces, cgroups, and containers work under the hood.</li>
@@ -87,30 +105,30 @@
 			<li>GSoC was my first time working in a collaborative environment, and it gave me a sneak peek into professional development.</li>
 		</ul>
 		</div>
-		<h2>What's Left to Do</h2>
-		<div class="content">
+		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">What's Left to Do</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
 		<b>Support for <code>PIDFD_THREAD</code> flag:</b> PIDFD_THREAD allows for pidfds to be opened that point to a single
 		thread instead of a process. I will be working on this after Google Summer of Code.
 		</div>
-		<h2>Work Done After GSoC</h2>
-		<div class="content">
-		<ul style="margin-top: 0.5em">
+		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold"> Work Done After GSoC</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+		<ul style="margin-top: 0.5em" class="list-disc pl-8 my-4">
 			<li>
 			Fixed a bug with <code>SIGCHLD</code> being called incorrectly on <code>tmp process</code>.
-			<h5>Link to Pull Request: <a target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2491">https://github.com/checkpoint-restore/criu/pull/2491</a></h5>
+			<h5 class="text-coral font-mono font-bold">Link to Pull Request: <a class="underline text-[#CCCCCC] hover:text-white" target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2491">https://github.com/checkpoint-restore/criu/pull/2491</a></h5>
 			</li>
 			<li>
 			Identified a bug with the current implementation of restore of dead pidfds.
-			<h5>Link to Issue: <a target="_blank" href="https://github.com/checkpoint-restore/criu/issues/2496">https://github.com/checkpoint-restore/criu/issues/2496</a></h5>
+			<h5 class="text-coral font-mono font-bold">Link to Issue: <a class="underline text-[#CCCCCC] hover:text-white" target="_blank" href="https://github.com/checkpoint-restore/criu/issues/2496">https://github.com/checkpoint-restore/criu/issues/2496</a></h5>
 			</li>
 			<li>
 			How we handle dead pidfds has changed after GSoC. I contributed a test case to the change.
-			<h5>Link to Pull Request: <a target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2505">https://github.com/checkpoint-restore/criu/pull/2505</a></h5>
+			<h5 class="text-coral font-mono font-bold">Link to Pull Request: <a class="underline text-[#CCCCCC] hover:text-white" target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2505">https://github.com/checkpoint-restore/criu/pull/2505</a></h5>
 			</li>
 		</ul>
 		</div>
-		<h2>Acknowledgements</h2>
-		<div class="content">
+		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Acknowledgements</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
 		Huge thank you to my mentor, <a target="_blank" href="https://github.com/mihalicyn">Aleksandr Mikhalitsyn</a>, for guiding me
 		and taking the extra time to explain concepts that helped me understand Linux and CRIU at a deeper level.
 		Thank you to <a target="_blank" href="https://github.com/avagin">Andrei Vagin</a> and
