@@ -132,10 +132,34 @@
 		</div>
 		<a class="text-coral text-bold font-mono text-2xl pl-[20px] pr-[20px] text-justify underline hover:text-white" target="_blank" href="https://github.com/checkpoint-restore/criu/pull/2754">Link to the CRIU Pull Request</a>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">What's Left To Do?</h2>
+		<div class="text-coral text-bold font-mono text-2xl pl-[20px] pr-[20px] text-justify">Kernel Side</div>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+			<ol class="list-decimal pl-8 my-4">
+				<li>Get the patch merged.</li>
+				<li>Write tests (kselftests).</li>
+				<li>Update statmount() docs.</li>
+			</ol>
+			For the future, we can also think about how to export information about anonymous mounts. Anonymous mounts can be created using the new mount API either with open_tree() with OPEN_TREE_CLONE or fsmount().
+			We can also open files on these anonymous mounts.
+		</div><br>
+		<div class="text-coral text-bold font-mono text-2xl pl-[20px] pr-[20px] text-justify">CRIU Side</div>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+			<ol class="list-decimal pl-8 my-4">
+				<li>Add support these because we can't get information about the filesystem for these mounts. We can think about restoring only the things we know and recreating the file system "partially".</li>
+				<li>Support for anonymous mounts as well.</li>
+			</ol>
+		</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Learnings</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+			This was my first time working with the Linux Kernel, I got to read a lot of kernel code and understand the kernel development process very well.
+			The complexity of this project was way higher than I had dealt with previously.
+		</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Work After GSoC</h2>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify"> Currently focused on getting the kernel patches merged.</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Acknowledgements</h2>
-
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+			This project would not have been possible without my mentor Pavel Tikhomirov, who helped me in every part of the process.
+		</div>
 	</div>
 	</body>
 </html>
