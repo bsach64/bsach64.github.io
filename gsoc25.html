@@ -72,15 +72,16 @@
 			<li>
 			<b>A new mount namespace in the kernel for "unmounted" mounts</b>: If a mount gets "unmounted" it gets removed from all mount namespaces. We suggested instead they get added to a kernel only mount namespace.
 			So, we can then call statmount() with this umount_mnt_ns namespace's mnt_ns_id to get the mountinfo we need. We also modified statx to export mnt_ns_id. Thus, to get mountinfo for a fd, we could do this:
-			<br>
-			<br>
-			statx(fd, "", AT_EMPTY_PATH, MNT_ID_UNIQUE | MNT_NS_ID, &stat);
-			<br>
-			struct mnt_id_req req = { .size = MNT_ID_REQ_SIZE_VER1, .mnt_id = stat.mnt_id, .mnt_ns_id = stat.mnt_ns_id, .flags = /* flags */ };
-			<br>
-			statmount(&req, &statmount_buf, buf_size, 0);
-			<br>
-			<br>
+			<div class="bg-gray-800 p-3 md:p-4 rounded-lg my-2 overflow-x-auto ml-[-20px] pl-[20px]">
+				<code class="text-sm md:text-base font-mono block whitespace-pre">statx(fd, "", AT_EMPTY_PATH, MNT_ID_UNIQUE | MNT_NS_ID, &stat);
+struct mnt_id_req req = {
+	.size = MNT_ID_REQ_SIZE_VER1,
+	.mnt_id = stat.mnt_id,
+	.mnt_ns_id = stat.mnt_ns_id,
+	.flags = /* flags */
+};
+statmount(&req, &statmount_buf, buf_size, 0);</code>
+			</div>
 			We sent our <a class="underline text-[#CCCCCC] hover:text-white" target="_blank" href="https://lore.kernel.org/all/20251002125422.203598-1-b.sachdev1904@gmail.com/">patch upstream</a>, but this approach has a
 			few problems. It complicated the implementation of mount namespaces and mounts in the kernel (See the <a class="underline text-[#CCCCCC] hover:text-white" target="_blank" href="https://lore.kernel.org/all/20251002163427.GN39973@ZenIV/">discussion on the patchset</a>). We got feedback that the second approach was better.
 			</li>
@@ -88,13 +89,14 @@
 			<li>
 			<b>Adding a fd parameter to statmount():</b> We added a fd parameter to struct mnt_id_req and a new STATMOUNT_BY_FD flag to statmount(). This allowed statmount() to directly return mountinfo for the mount the fd is on,
 			even if the fd is on an "unmounted" mount. Here's how it would work:
-			<br>
-			<br>
-			struct mnt_id_req req = { .size = MNT_ID_REQ_SIZE_VER1, .fd = fd, .flags = /* flags */ };
-			<br>
-			statmount(&req, &statmount_buf, buf_size, STATMOUNT_BY_FD);
-			<br>
-			<br>
+			<div class="bg-gray-800 p-3 md:p-4 rounded-lg my-2 overflow-x-auto ml-[-20px] pl-[20px]">
+				<code class="text-sm md:text-base font-mono block whitespace-pre">struct mnt_id_req req = { 
+	.size = MNT_ID_REQ_SIZE_VER1,
+	.fd = fd,
+	.flags = /* flags */
+};
+statmount(&req, &statmount_buf, buf_size, STATMOUNT_BY_FD);</code>
+			</div>
 			The maintainers have mostly found this approach more acceptable.
 			We have sent out two versions that implement fd-based-statmount()
 			<a class="underline text-[#CCCCCC] hover:text-white" target="_blank" href="https://lore.kernel.org/linux-fsdevel/20251011124753.1820802-1-b.sachdev1904@gmail.com/">v2</a> and
@@ -150,13 +152,13 @@
 		</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Learnings</h2>
 		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
-			This was the first time for working with Linux Kernel which ended up pretty fun and I got to learn the entire kernel development process.
+			This was first time for working with Linux Kernel which ended up pretty fun and I got to learn the entire kernel development process.
 		</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Work After GSoC</h2>
 		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify"> Currently focused on getting the kernel patches merged.</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Acknowledgements</h2>
 		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
-			This project would not have been possible without my mentor Pavel Tikhomirov, who helped me in every part of the process.
+			This project would not have been possible without my mentor Pavel Tikhomirov, who helped me in every part of process.
 		</div>
 	</div>
 	</body>
