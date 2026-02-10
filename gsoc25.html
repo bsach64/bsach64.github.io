@@ -136,9 +136,26 @@ statmount(&req, &statmount_buf, buf_size, STATMOUNT_BY_FD);</code>
 		<div class="text-coral text-bold font-mono text-2xl pl-[20px] pr-[20px] text-justify">Kernel Side</div>
 		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
 			<ol class="list-decimal pl-8 my-4">
-				<li>Get the patch merged.</li>
-				<li>Write tests (kselftests).</li>
-				<li>Update statmount() docs.</li>
+				<li>
+					<s>Get the patch merged.</s>
+					<br>
+					<div class="text-coral">The patch has <a class="underline hover:text-white" target="_blank" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=157d3d6efd5a58466d90be3a134f9667486fe6f9">been merged</a> and should be a part of the <b>v7.0</b> kernel.</div>
+				</li>
+				<li>
+					<s>Write tests (kselftests).</s>
+					<br>
+					<div class="text-coral">The patch was updated to include selftests.</div>
+				</li>
+				<li>
+					Update statmount() docs.
+					<br>
+					<div class="text-coral">
+						I have
+						<a class="underline hover:text-white" target="_blank" href="https://lore.kernel.org/linux-man/cover.1770671863.git.b.sachdev1904@gmail.com/T/#t">
+						sent out patches</a>
+						to <b>linux-man</b> to update statmount() docs with all the new features (including STATMOUNT_BY_FD)
+					</div>
+				</li>
 			</ol>
 			For the future, we can also think about how to export information about anonymous mounts. Anonymous mounts can be created using the new mount API either with open_tree() with OPEN_TREE_CLONE or fsmount().
 			We can also open files on these anonymous mounts.
@@ -155,7 +172,15 @@ statmount(&req, &statmount_buf, buf_size, STATMOUNT_BY_FD);</code>
 			This was first time for working with Linux Kernel which ended up pretty fun and I got to learn the entire kernel development process.
 		</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Work After GSoC</h2>
-		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify"> Currently focused on getting the kernel patches merged.</div>
+		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
+			<ol class="list-decimal pl-8 my-4">
+				<li> We sent out four more revisions of the patchset and eventually <a class="underline hover:text-white" target="_blank" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=157d3d6efd5a58466d90be3a134f9667486fe6f9">got them merged</a>.</li>
+				<li>The patches were updated to include selftests.</li>
+				<li>I <a class="underline hover:text-white" target="_blank" href="https://lpc.events/event/19/contributions/2240/">gave a talk</a> on this work at the Linux Plumbers Conference.</li>
+				<li>I <a class="underline hover:text-white" target="_blank" href="https://lore.kernel.org/linux-man/cover.1770671863.git.b.sachdev1904@gmail.com/T/#t">sent out patches</a> for updating statmount() man page.</li>
+			</ol>
+			Currently, focused on updating and cleaning up the PR to CRIU.
+		</div>
 		<h2 class="text-steelblue font-mono text-3xl text-left m-4 font-bold">Acknowledgements</h2>
 		<div class="text-[#CCCCCC] pl-[20px] pr-[20px] font-mono text-xl text-justify">
 			This project would not have been possible without my mentor Pavel Tikhomirov, who helped me in every part of process.
